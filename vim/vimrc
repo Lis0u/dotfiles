@@ -1,0 +1,283 @@
+set nocompatible
+
+""" Folding
+
+" {{{ Pathogen
+
+call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin on
+filetype plugin indent on
+
+" }}}
+" {{{ Terminal
+
+" Enable color in the terminal for the powerline in some terminal
+set t_Co=256
+
+" }}}
+" {{{ Plugins
+
+command! -nargs=* -bar -bang -count=0 -complete=dir E Explore <args>
+
+" {{{ ctrlp
+
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files && git submodule -q foreach ''for file in $(git ls-files); do echo $name/$file; done''']
+
+" }}}
+" {{{ colors
+
+hi Comment      cterm=none       ctermfg=blue       ctermbg=none
+hi doxygenBrief cterm=none       ctermfg=cyan       ctermbg=none
+hi Folded       cterm=none       ctermfg=brown      ctermbg=none
+
+hi Visual       cterm=reverse    ctermfg=none       ctermbg=none
+hi IncSearch    cterm=none       ctermfg=red        ctermbg=none
+hi Search       cterm=underline  ctermfg=red        ctermbg=none
+
+hi StatusLine   cterm=none       ctermfg=white      ctermbg=blue
+hi StatusLineNc cterm=none       ctermfg=black      ctermbg=white
+hi WildMenu     cterm=none       ctermfg=white      ctermbg=none
+hi VertSplit    cterm=none       ctermfg=darkgray   ctermbg=none
+hi NonText      cterm=none       ctermfg=darkgray   ctermbg=none
+
+hi MatchParen   cterm=underline  ctermfg=white      ctermbg=red
+hi Pmenu        cterm=none       ctermfg=gray       ctermbg=black
+hi PmenuSel     cterm=none       ctermfg=black      ctermbg=gray
+hi PmenuSbar    cterm=none       ctermfg=blue       ctermbg=blue
+hi PmenuThumb   cterm=none       ctermfg=gray       ctermbg=gray
+
+hi SpellBad     cterm=underline  ctermfg=lightred   ctermbg=none
+hi SpellCap     cterm=none       ctermfg=lightred   ctermbg=none
+hi SpellLocal   cterm=underline  ctermfg=darkgreen  ctermbg=none
+hi SpellRare    cterm=none       ctermfg=none       ctermbg=none
+
+hi javaScriptTpl       cterm=none ctermfg=darkgreen ctermbg=none
+hi javaScriptTplMark   cterm=none ctermfg=magenta ctermbg=none
+
+" }}}
+" {{{ youcompleteme
+
+let g:ycm_key_list_select_completion = ['<C-TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-S-TAB>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-Tab>'
+
+set completeopt+=preview
+
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_always_populate_location_list = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_collect_identifiers_from_tags_files = 0
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+
+" }}}
+" {{{ gitgutter
+
+let g:gitgutter_realtime = 1
+
+" }}}
+" }}}
+" {{{ mapping
+
+let mapleader = ","
+
+" {{{ Fn
+
+" bufExplorer
+map <F3> <leader>be
+
+" grep on the current word
+noremap <F4> :gr! -w <cword><cr>
+
+set pastetoggle=<F5>
+
+" spell check
+noremap <F8> :setlocal spell! spelllang=en_us<cr>
+
+" horizontal split + next buffer
+noremap <F9> :split<cr>:bn<cr>
+" vertical split + next buffer
+noremap <F10> :vsplit<cr>:bn<cr>
+
+" make
+noremap  <F11> :make!<cr><cr>
+inoremap <F11> <esc>:make!<cr><cr>
+
+" remove trailing spaces
+noremap <F12> mcHmh:%s/ \+$//ge<cr>'hzt`c
+
+" }}}
+" {{{ Normal
+
+" next compilation error
+noremap +        :cnext<cr>
+noremap <kPlus>  :cnext<cr>
+" previous compilation error
+noremap -        :cprev<cr>
+noremap <kMinus> :cprev<cr>
+" next syntastic error
+noremap <S-Right> :lnext<cr>
+" previous syntastic error
+noremap <S-Left> :lprev<cr>
+
+" change directory to the file being edited
+nnoremap ,cd :cd %:p:h<cr>
+
+" Move begining of line and end of line
+noremap H ^
+noremap L $
+
+" move to left buffer
+noremap  <C-Left>   <C-w><Left>
+noremap! <C-Left>   <Esc> <C-w><Left>
+noremap  <C-h>      <C-w><Left>
+noremap! <C-h>      <Esc> <C-w><Left>
+" move to right buffer
+noremap  <C-Right>  <C-w><Right>
+noremap! <C-Right>  <Esc> <C-w><Right>
+noremap  <C-l>      <C-w><Right>
+noremap! <C-l>      <Esc> <C-w><Right>
+" move to buffer above
+noremap  <C-Up>     <C-w><Up>
+noremap! <C-Up>     <Esc> <C-w><Up>
+noremap  <C-k>      <C-w><Up>
+noremap! <C-k>      <Esc> <C-w><Up>
+" move to buffer below
+noremap  <C-Down>   <C-w><Down>
+noremap! <C-Down>   <Esc> <C-w><Down>
+noremap  <C-j>      <C-w><Down>
+noremap! <C-j>      <Esc> <C-w><Down>
+
+" scroll up
+noremap <S-Up> <C-Y>
+" scroll down
+noremap <S-Down> <C-E>
+
+" resize windows
+noremap <A-l> :exec("5winc >")<cr>
+noremap <A-h> :exec("5winc <")<cr>
+noremap <A-k> :exec("5winc -")<cr>
+noremap <A-j> :exec("5winc +")<cr>
+
+" Add semicolumn at the end of the line
+nnoremap <leader>; :exec("normal! mqA;\<lt>esc>`q")<cr>
+
+" }}}
+" {{{ Interactive
+
+" forbid non-breakable spaces
+inoremap   <Space>
+
+" Uppercase last word
+inoremap <C-u> <esc>vbU<esc>ea
+
+" Surround last word with quotes
+inoremap <leader>" <esc>viw<esc>a"<esc>hbi"<esc>lela
+
+inoremap jk <esc>
+
+" }}}
+" {{{ Visual
+
+" Surround selected text with quotes
+vnoremap <leader>" <esc>`<i"<esc>`>a"<esc>l
+
+" }}}
+" {{{ Operator-Pendig Mapping
+
+" inside parens
+onoremap p i(
+onoremap np :<c-u>normal! f(vi(<cr>i
+onoremap pp :<c-u>normal! F)vi(<cr>i
+onoremap n" :<c-u>normal! f"vi"<cr>i
+
+" }}}
+" }}}
+" {{{ various
+
+" cursor line
+set cursorline
+hi CursorLine term=bold cterm=bold ctermbg=black
+
+" syntax
+syntax on
+
+set encoding=utf-8
+set backspace=indent,eol,start
+
+set incsearch
+set hlsearch
+
+set autoindent
+
+set hidden
+set noesckeys
+
+
+" list
+set listchars=eol:\ ,tab:\ \ ,trail:-,extends:>,precedes:<,nbsp:¤
+set list
+"hi SpecialKey ctermbg=red
+
+
+" modeline
+set modeline
+set modelines=5
+
+set lazyredraw
+set undolevels=1000   " increase number of undos possible
+set ttyfast           " fast terminal
+set showmatch         " show matching bracket
+set report=0          " report the number of lines changed
+set laststatus=2      " always have a status line
+set foldmethod=marker " folding => {{{ }}}
+set wildmenu
+set tags=tags;/,.tags;/,TAG;/
+
+if v:version >= 703
+    "undo settings
+    set undodir=~/.vim/undofiles
+    set undofile
+    set colorcolumn=+1 "mark the ideal max text width
+endif
+
+" }}}
+" {{{ restore cursor position
+
+au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+" }}}
+" {{{ code formatting
+
+set tabstop=4
+set softtabstop=4
+set expandtab
+set textwidth=0
+set shiftwidth=4
+set textwidth=80
+
+set cinoptions=
+set cinoptions+=L0.5s          " align labels at 0.5 shiftwidth
+set cinoptions+=:0.5s,=0.5s    " same for case labels and code following labels
+set cinoptions+=g0.5s,h0.5s    " same for C++ stuff
+set cinoptions+=t0             " type on the line before the function is not indented
+set cinoptions+=(0,Ws          " indent in functions ( ... ) when it breaks
+set cinoptions+=m1             " align the closing ) properly
+set cinoptions+=j1,J1          " java/javascript -> fixes blocks
+
+" Doxygen
+au! Syntax {cpp,c,d,javascript}
+au Syntax {cpp,c,d,javascript} runtime syntax/doxygen.vim
+
+" }}}
+
+colo seoul256
+
