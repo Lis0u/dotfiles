@@ -174,9 +174,6 @@ nnoremap <leader>; :exec("normal! mqA;\<lt>esc>`q")<cr>
 " }}}
 " {{{ Interactive
 
-" forbid non-breakable spaces
-inoremap   <Space>
-
 " Uppercase last word
 inoremap <C-u> <esc>vbU<esc>ea
 
@@ -190,15 +187,6 @@ inoremap jk <esc>
 
 " Surround selected text with quotes
 vnoremap <leader>" <esc>`<i"<esc>`>a"<esc>l
-
-" }}}
-" {{{ Operator-Pendig Mapping
-
-" inside parens
-onoremap p i(
-onoremap np :<c-u>normal! f(vi(<cr>i
-onoremap pp :<c-u>normal! F)vi(<cr>i
-onoremap n" :<c-u>normal! f"vi"<cr>i
 
 " }}}
 " }}}
