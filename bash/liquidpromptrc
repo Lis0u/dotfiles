@@ -5,8 +5,8 @@
 
 # If you want to use different themes and features,
 # you can load the corresponding files here:
-source ~/CONFIG/bash/moeryn.theme
-LP_PS1_FILE=~/CONFIG/bash/moeryn.ps1
+source ~/config/bash/moeryn.theme
+LP_PS1_FILE=~/config/bash/moeryn.ps1
 
 
 #############
